@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+.git/hooks/commit-msg "$1"
