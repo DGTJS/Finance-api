@@ -8,7 +8,7 @@ const app = express();
 
 app.listen(3000, async () => {
   console.log("Server running on port 3000");
-  const client = await PostgresHelper.query("SELECT NOW()");
+  const client = await PostgresHelper.query("SELECT * FROM pg_database WHERE datname = $1", [process.env.DATABASE_NAME]);
   if (client) {
     console.log("Connected to database");
   } else {
@@ -17,6 +17,6 @@ app.listen(3000, async () => {
 });
 
 app.get("/", async (req, res) => {
-  const result = await PostgresHelper.query("SELECT NOW()");
+  const result = await PostgresHelper.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
   res.send(JSON.stringify(result));
 });
